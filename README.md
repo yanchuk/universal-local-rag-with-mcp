@@ -65,6 +65,7 @@ cp config_examples/startup_company.yaml config.yaml
 # Edit config.yaml with your organization details
 
 # Run setup (auto-detects docker-compose vs docker compose)
+# You might need to provide permissions with `chmod +x setup.sh`
 ./setup.sh
 ```
 
@@ -145,9 +146,9 @@ print(f'Collection name: {org_name}_{base_name}')
 
 **🔧 Step 2: Create Claude MCP Configuration**
 
-Create a file called `claude_mcp_config.json` with one of these configurations:
+Update `claude_desktop_config.json`
 
-#### **For Interview Preparation (Recommended):**
+#### **For Interview Preparation (example):**
 ```json
 {
   "mcpServers": {
@@ -156,40 +157,6 @@ Create a file called `claude_mcp_config.json` with one of these configurations:
       "args": ["-m", "chromadb.mcp"],
       "env": {
         "CHROMA_HOST": "localhost",
-        "CHROMA_PORT": "8000",
-        "CHROMA_COLLECTION": "your_actual_collection_name_here"
-      }
-    }
-  }
-}
-```
-
-#### **For Team Knowledge Management:**
-```json
-{
-  "mcpServers": {
-    "team_knowledge": {
-      "command": "python",
-      "args": ["-m", "chromadb.mcp"],
-      "env": {
-        "CHROMA_HOST": "localhost",
-        "CHROMA_PORT": "8000",
-        "CHROMA_COLLECTION": "your_actual_collection_name_here"
-      }
-    }
-  }
-}
-```
-
-#### **For Remote/Team Deployment:**
-```json
-{
-  "mcpServers": {
-    "organization_knowledge": {
-      "command": "python",
-      "args": ["-m", "chromadb.mcp"],
-      "env": {
-        "CHROMA_HOST": "your-server.company.com",
         "CHROMA_PORT": "8000",
         "CHROMA_COLLECTION": "your_actual_collection_name_here"
       }
