@@ -1,0 +1,28 @@
+services:
+  chromadb:
+    image: chromadb/chroma:0.4.24
+    container_name: org-rag-chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./chroma_data:/chroma/chroma
+    environment:
+      - ANONYMIZED_TELEMETRY=False
+      - IS_PERSISTENT=TRUE
+      - PERSIST_DIRECTORY=/chroma/chroma
+      - CHROMA_SERVER_CORS_ALLOW_ORIGINS=["*"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.25'

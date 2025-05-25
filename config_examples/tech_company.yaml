@@ -1,0 +1,152 @@
+# Universal Organization RAG Configuration - Tech Company Template  
+# For established tech companies with multiple product lines and specialized teams
+
+# Organization Details
+organization:
+  name: "TechCorp"
+  description: "Leading technology company with multiple product lines and engineering excellence"
+  domain: "techcorp.com"
+
+# RAG System Goals
+rag_goals:
+  primary_purpose: "knowledge_management"  # Comprehensive knowledge base
+  focus_areas:
+    - "team_dynamics"        # Complex team interactions
+    - "customer_insights"    # Multiple customer segments
+    - "product_strategy"     # Multi-product strategy
+    - "company_culture"      # Engineering culture
+    
+  target_role: "general"  # Support multiple roles
+
+# Data Sources Configuration
+data_sources:
+  documentation:
+    base_path: "/path/to/techcorp/docs"
+    priority_paths:
+      - "architecture"       # Technical architecture docs
+      - "products"          # Product documentation
+      - "teams"            # Team-specific docs
+      - "processes"        # Engineering processes
+      - "handbook"         # Company handbook
+      - "customers"        # Customer documentation
+    file_extensions:
+      - "*.md"
+      - "*.mdx"
+      - "*.rst"           # ReStructuredText support
+  
+  github:
+    enabled: true
+    issues_path: "/path/to/github/issues"
+    include_comments: true
+    
+  # Future integrations for enterprise
+  confluence:
+    enabled: false  # Can be enabled later
+  notion:
+    enabled: false  # Can be enabled later
+
+# Tech Company Team Structure (specialized teams)
+target_teams:
+  - name: "platform"
+    keywords: ["platform", "infrastructure", "backend", "services", "api"]
+    aliases: ["platform-team", "infra", "backend"]
+  - name: "frontend"
+    keywords: ["frontend", "ui", "react", "web", "mobile", "client"]
+    aliases: ["frontend-team", "ui-team", "web-team"]
+  - name: "data"
+    keywords: ["data", "analytics", "ml", "ai", "machine learning", "data science"]
+    aliases: ["data-team", "ml-team", "analytics"]
+  - name: "security"
+    keywords: ["security", "infosec", "compliance", "privacy", "authentication"]
+    aliases: ["security-team", "infosec"]
+  - name: "devops"
+    keywords: ["devops", "deployment", "ci/cd", "kubernetes", "docker", "cloud"]
+    aliases: ["devops-team", "sre", "ops"]
+  - name: "product"
+    keywords: ["product", "pm", "roadmap", "features", "requirements"]
+    aliases: ["product-management", "product-team"]
+  - name: "design"
+    keywords: ["design", "ux", "ui", "user experience", "research", "prototyping"]
+    aliases: ["design-team", "ux-team"]
+  - name: "qa"
+    keywords: ["qa", "testing", "quality assurance", "automation", "test"]
+    aliases: ["qa-team", "test-team", "quality"]
+
+# Content Classification for Enterprise
+content_categories:
+  technical_architecture:
+    keywords: ["architecture", "system design", "scalability", "performance", "microservices"]
+    importance: "high"
+  team_documentation:
+    keywords: ["team", "responsibilities", "processes", "objectives", "oncall"]
+    importance: "high"
+  customer_stories:
+    keywords: ["customer", "case study", "implementation", "success story", "enterprise"]
+    importance: "high"
+  product_strategy:
+    keywords: ["strategy", "roadmap", "priorities", "competitive", "market"]
+    importance: "high"
+  company_culture:
+    keywords: ["values", "culture", "career", "growth", "promotion", "performance"]
+    importance: "high"
+  security_compliance:
+    keywords: ["security", "compliance", "gdpr", "privacy", "audit", "soc2"]
+    importance: "medium"
+  technical_docs:
+    keywords: ["api", "technical", "implementation", "guide", "tutorial"]
+    importance: "medium"
+  general_docs:
+    keywords: []
+    importance: "low"
+
+# Processing Configuration (optimized for large scale)
+processing:
+  max_chunk_size: 1500       # Larger chunks for complex technical content
+  chunk_overlap: 300         # More overlap for technical continuity
+  batch_size: 50            # Larger batches for efficiency
+  max_memory_usage: 0.85     # Higher memory usage for performance
+  embedding_model: "all-MiniLM-L6-v2"
+  language: "en"
+
+# ChromaDB Configuration
+chromadb:
+  host: "localhost"
+  port: 8000
+  collection_name: "techcorp_knowledge"
+  
+  # Enterprise features
+  enable_customer_context: true
+  enable_team_mapping: true
+  enable_pain_point_detection: true
+  enable_value_proposition_extraction: true
+
+# Knowledge Management Focus
+interview_prep:
+  enabled: true
+  focus_areas:
+    - "technical_architecture"
+    - "team_collaboration"
+    - "product_strategy"
+    - "company_values"
+    - "customer_success"
+  auto_generate_questions: true
+
+# Output Configuration
+output:
+  log_level: "INFO"
+  log_file: "techcorp_ingestion.log"
+  progress_interval: 100     # Less frequent updates for large datasets
+  enable_statistics: true
+
+# Quality Control for Enterprise Documentation
+quality:
+  min_content_length: 100
+  skip_empty_files: true
+  validate_markdown: true
+  exclude_patterns:
+    - "node_modules/**"
+    - ".git/**"
+    - "*.tmp"
+    - "**/legacy/**"        # Skip legacy documentation
+    - "**/deprecated/**"     # Skip deprecated content
+    - "**/drafts/**"        # Skip draft content

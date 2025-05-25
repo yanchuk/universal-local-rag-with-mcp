@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+env/
+.env
+
+# ChromaDB data
+chroma_data/
+*.db
+*.sqlite
+
+# Logs
+logs/
+*.log
+startup_ingestion.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# User configs (users should create their own)
+config.yaml
+claude_mcp_config.json
+
+# Temporary files
+*.tmp
+*.backup
+
+# Documentation builds
+docs/_build/
+
+# Large document collections (users' private docs)
+# Add paths to your specific private documentation:
+# private_docs/
+# company_docs/
+# confidential/
+
+# GitHub issue exports (private data)
+github_issues/
+issues_export/
+
+# Deployment artifacts
+GITHUB_DEPLOYMENT.md

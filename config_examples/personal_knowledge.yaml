@@ -1,0 +1,122 @@
+# Universal Organization RAG Configuration - Personal Knowledge Template
+# For individuals building personal knowledge bases from notes, research, and documentation
+
+# Organization Details
+organization:
+  name: "Personal Knowledge"
+  description: "Personal knowledge base for research, notes, and documentation"
+  domain: "personal"
+
+# RAG System Goals
+rag_goals:
+  primary_purpose: "knowledge_management"  # Personal knowledge management
+  focus_areas:
+    - "research_notes"       # Research and learning notes
+    - "project_documentation" # Personal project docs
+    - "reference_materials"  # Reference and how-to guides
+    
+  target_role: "general"  # Personal use
+
+# Data Sources Configuration
+data_sources:
+  documentation:
+    base_path: "/path/to/your/notes"  # Your personal docs folder
+    priority_paths:
+      - "research"          # Research notes
+      - "projects"          # Project documentation
+      - "learning"          # Learning materials
+      - "reference"         # Reference materials
+      - "ideas"            # Ideas and brainstorming
+    file_extensions:
+      - "*.md"
+      - "*.txt"
+      - "*.org"           # Org-mode files
+  
+  github:
+    enabled: false  # Usually not needed for personal knowledge
+
+# Personal Knowledge Areas (customize these to your interests)
+target_teams:
+  - name: "technical"
+    keywords: ["programming", "code", "development", "technical", "software"]
+    aliases: ["coding", "dev", "tech"]
+  - name: "research"
+    keywords: ["research", "paper", "study", "analysis", "academic"]
+    aliases: ["studies", "academic"]
+  - name: "creative"
+    keywords: ["creative", "design", "art", "writing", "ideas", "brainstorm"]
+    aliases: ["creativity", "ideas"]
+  - name: "business"
+    keywords: ["business", "entrepreneurship", "strategy", "finance", "management"]
+    aliases: ["entrepreneurship", "startup"]
+  - name: "personal"
+    keywords: ["personal", "goals", "planning", "productivity", "habits"]
+    aliases: ["self-improvement", "productivity"]
+
+# Content Classification for Personal Knowledge
+content_categories:
+  research_notes:
+    keywords: ["research", "notes", "study", "analysis", "findings", "paper"]
+    importance: "high"
+  project_documentation:
+    keywords: ["project", "implementation", "code", "technical", "how-to"]
+    importance: "high"
+  reference_materials:
+    keywords: ["reference", "guide", "manual", "documentation", "tutorial"]
+    importance: "high"
+  learning_materials:
+    keywords: ["learning", "course", "tutorial", "education", "skill"]
+    importance: "medium"
+  ideas_brainstorming:
+    keywords: ["ideas", "brainstorm", "creative", "concept", "thoughts"]
+    importance: "medium"
+  general_notes:
+    keywords: []
+    importance: "low"
+
+# Processing Configuration (optimized for personal scale)
+processing:
+  max_chunk_size: 800        # Smaller chunks for personal notes
+  chunk_overlap: 150         # Good overlap for note connections
+  batch_size: 20            # Small batches for personal scale
+  max_memory_usage: 0.70     # Conservative for personal machines
+  embedding_model: "all-MiniLM-L6-v2"
+  language: "en"
+
+# ChromaDB Configuration
+chromadb:
+  host: "localhost"
+  port: 8000
+  collection_name: "personal_knowledge"
+  
+  enable_customer_context: false     # Not relevant for personal use
+  enable_team_mapping: true          # Map to knowledge areas
+  enable_pain_point_detection: false # Not relevant for personal use
+  enable_value_proposition_extraction: false # Not relevant for personal use
+
+# Personal Knowledge Management
+interview_prep:
+  enabled: false  # Not typically needed for personal knowledge
+  focus_areas: []
+  auto_generate_questions: false
+
+# Output Configuration
+output:
+  log_level: "INFO"
+  log_file: "personal_ingestion.log"
+  progress_interval: 20      # Frequent updates for smaller datasets
+  enable_statistics: true
+
+# Quality Control for Personal Notes
+quality:
+  min_content_length: 30     # Lower threshold for personal notes
+  skip_empty_files: true
+  validate_markdown: false   # More flexible for personal notes
+  exclude_patterns:
+    - "node_modules/**"
+    - ".git/**"
+    - "*.tmp"
+    - "**/archive/**"        # Skip archived notes
+    - "**/drafts/**"         # Skip draft notes (optional)
+    - "**/.obsidian/**"      # Skip Obsidian metadata
+    - "**/.notion/**"        # Skip Notion exports metadata

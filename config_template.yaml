@@ -1,0 +1,192 @@
+# Universal Organization RAG Configuration Template
+# Copy this file to config.yaml and customize for your organization
+
+# Organization Details
+organization:
+  name: "YourCompany"  # REQUIRED: Replace with your organization name
+  description: "Company knowledge base for team insights and documentation"
+  domain: "yourcompany.com"  # Used for URL generation and identification
+
+# RAG System Goals - Define what you want to achieve
+rag_goals:
+  # REQUIRED: Choose your primary purpose
+  primary_purpose: "interview_preparation"  # Options: interview_preparation, knowledge_management, onboarding
+  
+  # REQUIRED: Select focus areas that matter to your organization
+  focus_areas:
+    - "company_culture"      # Company values, processes, decision-making
+    - "team_dynamics"        # Team structure, responsibilities, collaboration  
+    - "customer_insights"    # Customer feedback, use cases, pain points
+    - "product_strategy"     # Roadmap, prioritization, competitive positioning
+    # Additional options:
+    # - "technical_architecture"
+    # - "security_compliance"
+    # - "research_notes"
+    # - "project_documentation"
+  
+  # OPTIONAL: Optimize for specific role
+  target_role: "product_manager"  # Options: product_manager, engineer, designer, sales, marketing, consultant, general
+
+# Data Sources Configuration
+data_sources:
+  # REQUIRED: Main documentation paths
+  documentation:
+    base_path: "/path/to/your/docs"  # REQUIRED: Replace with your docs path
+    
+    # OPTIONAL: Priority paths processed first for better relevance
+    priority_paths:
+      - "handbook"           # Company handbook
+      - "team-docs"          # Team-specific documentation
+      - "customers"          # Customer stories and case studies
+      - "culture"            # Culture and values
+      - "products"           # Product documentation
+      - "processes"          # Company processes
+    
+    # OPTIONAL: File types to process
+    file_extensions:
+      - "*.md"               # Markdown files
+      - "*.mdx"              # MDX files
+      # Additional options:
+      # - "*.txt"            # Plain text
+      # - "*.rst"            # ReStructuredText
+      # - "*.org"            # Org-mode files
+  
+  # OPTIONAL: GitHub integration for customer feedback
+  github:
+    enabled: false           # Set to true if you have GitHub issues to include
+    issues_path: "/path/to/github/issues"  # Path to exported GitHub issues (markdown format)
+    include_comments: true   # Include issue comments in processing
+    
+  # OPTIONAL: Future integrations
+  notion:
+    enabled: false           # Notion integration (future feature)
+    
+  confluence:
+    enabled: false           # Confluence integration (future feature)
+
+# REQUIRED: Target Teams/Departments - Customize for your organization
+target_teams:
+  # Example teams - replace with your actual teams
+  - name: "engineering"
+    keywords: ["engineering", "development", "technical", "infrastructure", "backend", "frontend"]
+    aliases: ["eng", "dev", "tech"]
+    
+  - name: "product"  
+    keywords: ["product", "pm", "roadmap", "features", "user experience", "requirements"]
+    aliases: ["product-management", "product-team"]
+    
+  - name: "design"
+    keywords: ["design", "user experience", "ui", "ux", "interface", "prototyping"]
+    aliases: ["ux", "ui", "design-team"]
+    
+  - name: "marketing"
+    keywords: ["marketing", "growth", "content", "campaigns", "acquisition"]
+    aliases: ["growth", "marketing-team"]
+    
+  - name: "sales"
+    keywords: ["sales", "revenue", "deals", "customers", "business development"]
+    aliases: ["biz-dev", "bd", "sales-team"]
+  
+  # Add more teams as needed:
+  # - name: "data"
+  #   keywords: ["data", "analytics", "ml", "ai", "machine learning"]
+  #   aliases: ["data-team", "ml-team"]
+  # - name: "security"
+  #   keywords: ["security", "infosec", "compliance", "privacy"]
+  #   aliases: ["security-team", "infosec"]
+
+# Content Classification - How content gets categorized
+content_categories:
+  company_culture:
+    keywords: ["values", "culture", "mission", "vision", "principles", "ethics"]
+    importance: "high"
+    
+  team_documentation:
+    keywords: ["team", "responsibilities", "processes", "objectives", "workflow"]
+    importance: "high"
+    
+  customer_stories:
+    keywords: ["customer", "case study", "implementation", "success story", "client"]
+    importance: "high"
+    
+  product_strategy:
+    keywords: ["strategy", "roadmap", "priorities", "competitive", "vision", "goals"]
+    importance: "high"
+    
+  technical_docs:
+    keywords: ["api", "technical", "implementation", "architecture", "setup", "guide"]
+    importance: "medium"
+    
+  general_docs:
+    keywords: []  # Fallback category
+    importance: "low"
+
+# Processing Configuration - Tune performance for your needs
+processing:
+  # Chunking settings
+  max_chunk_size: 1200      # Maximum tokens per chunk (500-2000)
+  chunk_overlap: 250        # Token overlap between chunks (100-500)
+  batch_size: 40           # Processing batch size (16-64)
+  
+  # Memory management
+  max_memory_usage: 0.8    # Auto-cleanup at this % of memory usage (0.7-0.9)
+  
+  # Embedding model - balance quality vs speed
+  embedding_model: "all-MiniLM-L6-v2"  # Options: all-MiniLM-L6-v2 (fast), all-mpnet-base-v2 (better quality)
+  
+  # Language
+  language: "en"           # Primary language for processing
+
+# ChromaDB Configuration
+chromadb:
+  host: "localhost"        # ChromaDB host
+  port: 8000              # ChromaDB port
+  collection_name: "organization_knowledge"  # Collection name (will be prefixed with org name)
+  
+  # Feature toggles
+  enable_customer_context: true      # Track customer mentions
+  enable_team_mapping: true          # Map content to teams
+  enable_pain_point_detection: true  # Identify problems and challenges
+  enable_value_proposition_extraction: true  # Find solutions and benefits
+
+# Interview Preparation Settings (if applicable)
+interview_prep:
+  enabled: true            # Enable interview preparation features
+  focus_areas:
+    - "company_values"     # Company values and culture
+    - "team_structure"     # How teams are organized
+    - "customer_problems"  # What problems customers face
+    - "product_decisions"  # How product decisions are made
+    - "strategic_context"  # Strategic positioning and goals
+  
+  auto_generate_questions: true  # Generate sample interview questions
+
+# Output and Logging
+output:
+  log_level: "INFO"        # Logging level: DEBUG, INFO, WARNING, ERROR
+  log_file: "ingestion.log"  # Log file name
+  
+  # Progress reporting
+  progress_interval: 50    # Report progress every N files processed
+  
+  # Statistics
+  enable_statistics: true  # Generate processing statistics
+
+# Quality Control
+quality:
+  min_content_length: 100      # Minimum characters for processing (50-200)
+  skip_empty_files: true       # Skip files with no content
+  validate_markdown: true      # Validate markdown syntax
+  
+  # Content filtering - exclude unwanted files/directories
+  exclude_patterns:
+    - "node_modules/**"        # Node.js dependencies
+    - ".git/**"               # Git repository files
+    - "*.tmp"                 # Temporary files
+    - "*.backup"              # Backup files
+    - "**/archive/**"         # Archived content
+    - "**/deprecated/**"      # Deprecated content
+    - "**/drafts/**"          # Draft content (optional)
+    # Add your own patterns:
+    # - "**/confidential/**"  # Confidential information
+    # - "**/legal/**"         # Legal documents

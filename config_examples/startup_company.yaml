@@ -1,0 +1,124 @@
+# Universal Organization RAG Configuration - Startup Company Template
+# Perfect for early-stage startups with lean teams and fast-moving culture
+
+# Organization Details
+organization:
+  name: "Acme Startup"
+  description: "Fast-moving startup building the future of SaaS"
+  domain: "acmestartup.com"
+
+# RAG System Goals
+rag_goals:
+  primary_purpose: "interview_preparation"  # Focus on understanding culture & strategy
+  focus_areas:
+    - "company_culture"      # Core values and working style
+    - "product_strategy"     # Vision and roadmap
+    - "team_dynamics"        # How small teams collaborate
+    
+  target_role: "product_manager"  # Optimize for PM role preparation
+
+# Data Sources Configuration
+data_sources:
+  # Main documentation paths
+  documentation:
+    base_path: "/path/to/your/startup/docs"
+    priority_paths:  # Process these first for relevance
+      - "handbook"
+      - "product"
+      - "culture"
+      - "team-docs"
+    file_extensions:
+      - "*.md"
+      - "*.mdx"
+  
+  # GitHub integration (common for startups)
+  github:
+    enabled: true  # Include GitHub issues for customer feedback
+    issues_path: "/path/to/github/issues"
+    include_comments: true
+
+# Startup Team Structure (lean and cross-functional)
+target_teams:
+  - name: "product"
+    keywords: ["product", "pm", "roadmap", "features", "user experience"]
+    aliases: ["product-management", "product-team"]
+  - name: "engineering"  
+    keywords: ["engineering", "development", "technical", "backend", "frontend"]
+    aliases: ["eng", "dev", "tech"]
+  - name: "growth"
+    keywords: ["growth", "marketing", "acquisition", "analytics", "conversion"]
+    aliases: ["marketing", "growth-team"]
+  - name: "design"
+    keywords: ["design", "user experience", "ui", "ux", "interface"]
+    aliases: ["ux", "ui", "design-team"]
+
+# Content Classification for Startups
+content_categories:
+  company_culture:
+    keywords: ["values", "culture", "mission", "vision", "principles", "remote", "async"]
+    importance: "high"
+  product_strategy:
+    keywords: ["strategy", "roadmap", "priorities", "competitive", "vision", "goals"]
+    importance: "high"
+  team_documentation:
+    keywords: ["team", "responsibilities", "processes", "objectives", "sprint", "standup"]
+    importance: "high"
+  customer_feedback:
+    keywords: ["customer", "user", "feedback", "feature request", "bug", "support"]
+    importance: "high"
+  technical_docs:
+    keywords: ["api", "technical", "implementation", "architecture", "setup"]
+    importance: "medium"
+  general_docs:
+    keywords: []
+    importance: "low"
+
+# Processing Configuration (optimized for speed)
+processing:
+  max_chunk_size: 1000       # Smaller chunks for faster processing
+  chunk_overlap: 200         # Good overlap for context
+  batch_size: 32            # Medium batch size
+  max_memory_usage: 0.75     # Conservative memory usage
+  embedding_model: "all-MiniLM-L6-v2"  # Fast, good quality
+  language: "en"
+
+# ChromaDB Configuration
+chromadb:
+  host: "localhost"
+  port: 8000
+  collection_name: "startup_knowledge"
+  
+  # Startup-optimized features
+  enable_customer_context: true      # Track customer mentions
+  enable_team_mapping: true          # Map content to lean teams
+  enable_pain_point_detection: true  # Find user problems
+  enable_value_proposition_extraction: true  # Identify solutions
+
+# Interview Preparation for Startup Roles
+interview_prep:
+  enabled: true
+  focus_areas:
+    - "company_mission"       # Why does the company exist?
+    - "product_vision"        # Where is the product going?
+    - "team_culture"          # How do teams work together?
+    - "customer_problems"     # What problems are we solving?
+    - "growth_strategy"       # How will we scale?
+  auto_generate_questions: true
+
+# Output and Logging
+output:
+  log_level: "INFO"
+  log_file: "startup_ingestion.log"
+  progress_interval: 25  # More frequent updates for smaller datasets
+  enable_statistics: true
+
+# Quality Control for Lean Documentation
+quality:
+  min_content_length: 50       # Lower threshold for lean docs
+  skip_empty_files: true
+  validate_markdown: true
+  exclude_patterns:
+    - "node_modules/**"
+    - ".git/**"
+    - "*.tmp"
+    - "**/archive/**"        # Skip archived content

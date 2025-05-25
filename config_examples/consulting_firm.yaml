@@ -1,0 +1,125 @@
+# Universal Organization RAG Configuration - Consulting Firm Template
+# For professional services firms focusing on client work and methodology
+
+# Organization Details
+organization:
+  name: "Strategy Consultants"
+  description: "Premier strategy consulting firm helping Fortune 500 companies transform"
+  domain: "strategyconsultants.com"
+
+# RAG System Goals
+rag_goals:
+  primary_purpose: "onboarding"  # Focus on new hire onboarding
+  focus_areas:
+    - "company_culture"      # Professional culture and values
+    - "client_insights"      # Client work and methodologies
+    - "team_dynamics"        # Project team structure
+    
+  target_role: "consultant"  # Optimize for consultant onboarding
+
+# Data Sources Configuration
+data_sources:
+  documentation:
+    base_path: "/path/to/consulting/docs"
+    priority_paths:
+      - "handbook"          # Employee handbook
+      - "methodologies"     # Consulting methodologies
+      - "case-studies"      # Client case studies (anonymized)
+      - "training"          # Training materials
+      - "culture"           # Company culture docs
+    file_extensions:
+      - "*.md"
+      - "*.mdx"
+  
+  github:
+    enabled: false  # Less common for consulting firms
+    
+# Consulting Firm Team Structure
+target_teams:
+  - name: "strategy"
+    keywords: ["strategy", "consulting", "analysis", "frameworks", "transformation"]
+    aliases: ["strategy-team", "consulting"]
+  - name: "operations"
+    keywords: ["operations", "process", "efficiency", "optimization", "implementation"]
+    aliases: ["ops", "operations-team"]
+  - name: "technology"
+    keywords: ["technology", "digital", "data", "analytics", "automation"]
+    aliases: ["tech", "digital-team"]
+  - name: "change-management"
+    keywords: ["change", "transformation", "adoption", "training", "communication"]
+    aliases: ["change", "transformation"]
+  - name: "business-development"
+    keywords: ["business development", "sales", "partnerships", "growth", "clients"]
+    aliases: ["bd", "sales", "growth"]
+
+# Content Classification for Consulting
+content_categories:
+  company_culture:
+    keywords: ["values", "culture", "professional", "ethics", "development", "career"]
+    importance: "high"
+  methodologies:
+    keywords: ["methodology", "framework", "approach", "process", "best practice"]
+    importance: "high"
+  client_insights:
+    keywords: ["client", "case study", "project", "engagement", "industry", "sector"]
+    importance: "high"
+  training_materials:
+    keywords: ["training", "learning", "development", "skills", "certification"]
+    importance: "high"
+  team_documentation:
+    keywords: ["team", "roles", "responsibilities", "project structure", "hierarchy"]
+    importance: "medium"
+  general_docs:
+    keywords: []
+    importance: "low"
+
+# Processing Configuration (optimized for professional content)
+processing:
+  max_chunk_size: 1200       # Medium chunks for methodology content
+  chunk_overlap: 250         # Good overlap for framework continuity
+  batch_size: 40            # Medium batch size
+  max_memory_usage: 0.80     # Standard memory usage
+  embedding_model: "all-MiniLM-L6-v2"
+  language: "en"
+
+# ChromaDB Configuration
+chromadb:
+  host: "localhost"
+  port: 8000
+  collection_name: "consulting_knowledge"
+  
+  enable_customer_context: true      # Track client mentions
+  enable_team_mapping: true          # Map to practice areas
+  enable_pain_point_detection: true  # Identify client challenges
+  enable_value_proposition_extraction: true  # Find solution approaches
+
+# Onboarding Focus
+interview_prep:
+  enabled: true
+  focus_areas:
+    - "company_values"        # Professional values and ethics
+    - "consulting_approach"   # How we work with clients
+    - "team_structure"        # Project team dynamics
+    - "client_success"        # Case studies and wins
+    - "career_development"    # Growth paths
+  auto_generate_questions: true
+
+# Output Configuration
+output:
+  log_level: "INFO"
+  log_file: "consulting_ingestion.log"
+  progress_interval: 50
+  enable_statistics: true
+
+# Quality Control for Professional Services
+quality:
+  min_content_length: 100
+  skip_empty_files: true
+  validate_markdown: true
+  exclude_patterns:
+    - "node_modules/**"
+    - ".git/**"
+    - "*.tmp"
+    - "**/confidential/**"   # Skip confidential client information
+    - "**/proposals/**"      # Skip active proposals
+    - "**/contracts/**"      # Skip contract information
