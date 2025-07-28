@@ -3,7 +3,7 @@
 Universal Organization RAG System Test Suite
 
 🚨 IMPORTANT: Activate virtual environment first!
-   Run: source venv/bin/activate (macOS/Linux) or venv\Scripts\activate (Windows)
+   Run: source venv/bin/activate (macOS/Linux) or venv\\Scripts\\activate (Windows)
    
 Usage: python test_setup.py config.yaml
 
@@ -19,6 +19,15 @@ import logging
 import sys
 from pathlib import Path
 from typing import Dict, List, Any
+
+def check_virtual_environment():
+    """Check if virtual environment is activated"""
+    if not hasattr(sys, 'real_prefix') and not (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix):
+        print("❌ Virtual environment not activated!")
+        print("Please run: source venv/bin/activate")
+        print("Then try again: python test_setup.py config.yaml")
+        sys.exit(1)
+    print("✅ Virtual environment is activated")
 
 def load_config(config_path: str = "config.yaml") -> Dict[str, Any]:
     """Load configuration from YAML file"""
@@ -358,6 +367,9 @@ def suggest_next_steps(config: Dict[str, Any]):
 
 def main():
     """Main test function"""
+    
+    # Check virtual environment first
+    check_virtual_environment()
     
     # Get config file from command line argument
     config_path = sys.argv[1] if len(sys.argv) > 1 else "config.yaml"

@@ -1,6 +1,6 @@
 services:
   chromadb:
-    image: chromadb/chroma:0.4.24
+    image: chromadb/chroma:0.5.23
     container_name: org-rag-chromadb
     ports:
       - "8000:8000"

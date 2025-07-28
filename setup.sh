@@ -80,7 +80,15 @@ source venv/bin/activate
 # Install Python dependencies
 print_status "Installing Python dependencies..."
 pip install --upgrade pip
-pip install -r requirements.txt
+
+# Install requirements with error handling
+if pip install -r requirements.txt; then
+    print_success "Python dependencies installed successfully"
+else
+    print_error "Failed to install Python dependencies"
+    print_error "Check requirements.txt and try running: pip install -r requirements.txt"
+    exit 1
+fi
 
 print_success "Python environment setup complete"
 
@@ -213,6 +221,16 @@ else
     exit 1
 fi
 
+# Check ChromaDB version compatibility
+print_status "Checking ChromaDB version compatibility for MCP..."
+if python scripts/check_versions.py; then
+    print_success "ChromaDB versions are compatible"
+else
+    print_warning "ChromaDB version compatibility issues detected"
+    print_warning "MCP integration may not work correctly"
+    print_warning "Run 'python scripts/check_versions.py' for detailed fixes"
+fi
+
 # Extract collection name and show final status
 COLLECTION_NAME=$(python3 -c "
 import yaml
@@ -240,6 +258,9 @@ echo ""
 echo "💡 Test your setup:"
 echo "   python test_setup.py $CONFIG_FILE"
 echo ""
+echo "🔧 Setup Claude Desktop MCP integration:"
+echo "   python scripts/setup_mcp.py"
+echo ""
 echo "🔍 Query your knowledge base:"
 echo "   Use the collection '$COLLECTION_NAME' in your applications"
 echo ""
@@ -248,3 +269,4 @@ echo "   Stop ChromaDB: $DOCKER_COMPOSE_CMD down"
 echo "   Restart ChromaDB: $DOCKER_COMPOSE_CMD up -d"
 echo "   View logs: $DOCKER_COMPOSE_CMD logs -f"
 echo "   Re-ingest data: python ingest_data.py $CONFIG_FILE"
+echo "   Check versions: python scripts/check_versions.py"
