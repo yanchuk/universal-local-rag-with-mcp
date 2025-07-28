@@ -154,6 +154,16 @@ The project isolates dependencies to avoid conflicts with system Python.
 - Configurable batch sizes and chunk parameters
 - Cross-platform PyTorch compatibility
 
+## Documentation Structure
+
+The project uses split documentation for better usability:
+- `README.md` - Brief overview and quick start
+- `SETUP.md` - Detailed installation instructions
+- `MCP_INTEGRATION.md` - Claude Desktop/CLI setup
+- `CONFIGURATION.md` - YAML config examples and options
+- `TROUBLESHOOTING.md` - Common issues and fixes
+- `CLAUDE.md` - Development guidance (this file)
+
 ## Development Notes
 
 - No package.json - this is a Python project
