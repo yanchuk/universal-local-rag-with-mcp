@@ -48,6 +48,22 @@ A configurable Retrieval-Augmented Generation (RAG) system for building searchab
 
 ## 🚀 Quick Start
 
+### TL;DR - 3 Steps to Get Running
+```bash
+# 1. Clone and setup
+git clone https://github.com/yanchuk/universal-local-rag-with-mcp.git
+cd universal-local-rag-with-mcp
+cp config_examples/startup_company.yaml config.yaml
+# Edit config.yaml with your organization details
+./setup.sh
+
+# 2. Setup Claude Desktop MCP (automated)
+source venv/bin/activate
+python scripts/setup_mcp.py
+
+# 3. Setup Claude Code CLI MCP (see below)
+```
+
 ### Prerequisites
 - **Docker Desktop** (for ChromaDB) - must be running
 - **Python 3.8+**
@@ -127,11 +143,22 @@ python scripts/interview_prep.py config.yaml  # Interactive interview preparatio
 ## 🔧 Claude MCP Integration
 
 **📋 Prerequisites:**
+- **Complete the basic setup first** (run `./setup.sh` successfully)
 - ChromaDB running locally (`docker compose up -d`)
-- Knowledge base ingested (`python ingest_data.py config.yaml`)
 - Claude Desktop app installed
+- **IMPORTANT**: Virtual environment activated (`source venv/bin/activate`)
 
-**🔧 Step 1: Find Your Collection Name**
+**🔧 Step 1: Verify MCP Installation**
+```bash
+# Activate virtual environment first!
+source venv/bin/activate
+
+# Verify chroma-mcp is installed (should be installed by setup.sh)
+which chroma-mcp
+# If not found, install it: pip install chroma-mcp
+```
+
+**🔧 Step 2: Find Your Collection Name**
 ```bash
 # Your collection name format: {organization_name}_{collection_name}
 python -c "
@@ -144,53 +171,126 @@ print(f'Collection name: {org_name}_{base_name}')
 "
 ```
 
-**🔧 Step 2: Create Claude MCP Configuration**
+**🔧 Step 3: Create Claude MCP Configuration**
 
-Update `claude_desktop_config.json`
+Update `claude_desktop_config.json` (find config file at `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
 
-#### **For Interview Preparation (example):**
+#### **Correct Configuration:**
 ```json
 {
   "mcpServers": {
-    "company_knowledge": {
-      "command": "python",
-      "args": ["-m", "chromadb.mcp"],
-      "env": {
-        "CHROMA_HOST": "localhost",
-        "CHROMA_PORT": "8000",
-        "CHROMA_COLLECTION": "your_actual_collection_name_here"
-      }
+    "your_org_knowledge": {
+      "command": "/full/path/to/your/venv/bin/chroma-mcp",
+      "args": [
+        "--client-type", "http",
+        "--host", "localhost",
+        "--port", "8000",
+        "--ssl", "false"
+      ]
     }
   }
 }
 ```
 
-**🔧 Step 3: Replace Collection Name**
+**🔧 Step 4: Get Your Exact Paths**
+```bash
+# Get your venv path
+source venv/bin/activate
+which chroma-mcp
 
-Replace `"your_actual_collection_name_here"` with your actual collection name from Step 1.
-
-**🔧 Step 4: Connect Claude Desktop**
-
-1. **Open Claude Desktop settings**
-2. **Navigate to Developer > MCP Servers**
-3. **Add new server** or **import configuration file**
-4. **Point to your `claude_mcp_config.json`**
-5. **Restart Claude Desktop**
-
-**🔧 Step 5: Test Connection**
-
-In Claude, try queries like:
+# This will output something like:
+# /Users/yourname/git/universal-local-rag-with-mcp/venv/bin/chroma-mcp
 ```
-Search my organization knowledge for "company values"
-What are our team structures and responsibilities?
-Find information about our product strategy
+
+**🔧 Step 5: Update Configuration with Your Paths**
+
+Replace the `command` field with your actual path from Step 4:
+```json
+{
+  "mcpServers": {
+    "your_org_knowledge": {
+      "command": "/Users/yourname/git/universal-local-rag-with-mcp/venv/bin/chroma-mcp",
+      "args": [
+        "--client-type", "http",
+        "--host", "localhost",
+        "--port", "8000",
+        "--ssl", "false"
+      ]
+    }
+  }
+}
+```
+
+**🔧 Step 6: Restart Claude Desktop and Test**
+
+1. **Save the configuration file**
+2. **Restart Claude Desktop completely**
+3. **Test with queries like:**
+   ```
+   List available tools
+   Search for company culture
+   What are our team structures?
+   ```
+
+**🚀 Alternative: Automated Setup**
+```bash
+# Skip manual configuration - use the automated script instead!
+source venv/bin/activate
+python scripts/setup_mcp.py
+# This will automatically configure Claude Desktop for you
 ```
 
 **🚨 Troubleshooting MCP Connection:**
+- **"spawn python ENOENT"**: Use full path to `chroma-mcp` executable in virtual environment
+- **"SSL record layer failure"**: Add `--ssl false` argument for local HTTP connections
+- **"404 Not Found" or API version errors**: Ensure ChromaDB server version matches client (both should be compatible)
 - **"Connection failed"**: Check if ChromaDB is running (`curl http://localhost:8000/api/v1/heartbeat`)
 - **"Collection not found"**: Verify collection name matches exactly
-- **"MCP server not found"**: Restart Claude Desktop after config changes
-- **"No results"**: Check if data was ingested successfully
+- **JSON parsing errors**: Check Claude Desktop logs for malformed JSON in config file
+
+## 🖥️ Claude Code CLI Integration
+
+**For Claude Code CLI users, there's a simpler approach using the `claude mcp add` command:**
+
+**📋 Prerequisites:**
+- **Complete the basic setup first** (run `./setup.sh` successfully)
+- ChromaDB running locally and knowledge base ingested
+- Claude Code CLI installed and working
+
+**🔧 Step 1: Get Your Paths**
+```bash
+# Activate virtual environment and get the chroma-mcp path
+source venv/bin/activate
+which chroma-mcp
+# Example output: /Users/yourname/git/universal-local-rag-with-mcp/venv/bin/chroma-mcp
+```
+
+**🔧 Step 2: Add MCP Server to Claude Code CLI**
+```bash
+# Add your knowledge base as an MCP server
+claude mcp add your_org_knowledge -s user -- /Users/yourname/git/universal-local-rag-with-mcp/venv/bin/chroma-mcp --client-type http --host localhost --port 8000 --ssl false
+
+# Replace "your_org_knowledge" with your organization name
+# Replace the path with your actual chroma-mcp path from Step 1
+```
+
+**🔧 Step 3: Test the Connection**
+```bash
+# List available MCP servers
+claude mcp list
+
+# Test with queries
+claude "Search my organization knowledge for company values"
+```
+
+**🔧 Alternative: Import from Claude Desktop Configuration**
+
+If you already have Claude Desktop configured (using `scripts/setup_mcp.py`):
+
+```bash
+# Copy your Claude Desktop MCP config to Claude Code CLI
+claude mcp import desktop
+```
 
 ### 4. Query Your Knowledge Base (Python API)
 ```python
@@ -365,8 +465,12 @@ docker compose down           # Stop
 docker compose logs -f        # View logs
 ```
 
+**Note**: The system uses ChromaDB v0.5.23 in Docker for compatibility with the MCP client v1.0.15. If you encounter version compatibility issues, ensure both client and server versions are compatible.
+
 ### Re-ingest Data
 ```bash
+# IMPORTANT: Always activate virtual environment first
+source venv/bin/activate
 python ingest_data.py config.yaml
 ```
 
@@ -374,6 +478,8 @@ python ingest_data.py config.yaml
 1. Edit `config.yaml`
 2. Re-run `./setup.sh` or just the ingestion:
    ```bash
+   # IMPORTANT: Always activate virtual environment first
+   source venv/bin/activate
    python ingest_data.py config.yaml
    ```
 
