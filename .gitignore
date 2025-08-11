@@ -37,6 +37,8 @@ claude_mcp_config.json
 
 # Documentation builds
 docs/_build/
+docs/.midpoint-kb/
+docs/dev-docs/
 
 # Large document collections (users' private docs)
 # Add paths to your specific private documentation:
